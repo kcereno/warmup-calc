@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  calculateLoadOut,
+  calculateOneRepMax,
+} from "./calculations/calculatingFunctions";
+import InputField from "./components/InputField";
+import "./App.css";
+import { useState } from "react";
+import Results from "./components/Results";
+import WarmUpData from "./components/WarmUpData";
 
 function App() {
+  const [oneRepMax, setOneRepMax] = useState(0);
+  const [submitted, setSubmitted]  = useState(false)
+
+  const submitDataHandler = (data) => {
+    const { weight, reps, repsInReserve } = data;
+
+    const totalReps = +reps + +repsInReserve;
+
+    const result = calculateOneRepMax(weight, totalReps).toFixed();
+    setOneRepMax(result);
+    setSubmitted(true)
+  };
+
+  const content = (
+    <>
+      <Results oneRepMax={oneRepMax} />
+      <hr />
+      <WarmUpData oneRepMax={oneRepMax} />
+    </>
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Karls Warmup App</h1>
+      <hr />
+      <InputField submitData={submitDataHandler} />
+      <hr />
+      {submitted && content}
     </div>
   );
 }
