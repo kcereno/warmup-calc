@@ -10,23 +10,27 @@ import WarmUpData from "./components/WarmUpData";
 
 function App() {
   const [oneRepMax, setOneRepMax] = useState(0);
-  const [submitted, setSubmitted]  = useState(false)
+  const [submitted, setSubmitted] = useState(false);
+  const [warmupType, setWarmupType] = useState(null);
 
   const submitDataHandler = (data) => {
     const { weight, reps, repsInReserve } = data;
-
     const totalReps = +reps + +repsInReserve;
-
     const result = calculateOneRepMax(weight, totalReps).toFixed();
+
     setOneRepMax(result);
-    setSubmitted(true)
+    setSubmitted(true);
+  };
+
+  const getWarmupType = (type) => {
+    setWarmupType(type);
   };
 
   const content = (
     <>
-      <Results oneRepMax={oneRepMax} />
+      <Results oneRepMax={oneRepMax} onRadioClick={getWarmupType} />
       <hr />
-      <WarmUpData oneRepMax={oneRepMax} />
+      <WarmUpData oneRepMax={oneRepMax} warmupType={warmupType} />
     </>
   );
 

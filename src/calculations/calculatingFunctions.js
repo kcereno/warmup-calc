@@ -4,5 +4,6 @@ export function calculateOneRepMax(weight, reps) {
   return result;
 }
 
-
-console.log(calculateOneRepMax(200,5))
+export function calculateLoadOut(weight) {
+    //
+}
